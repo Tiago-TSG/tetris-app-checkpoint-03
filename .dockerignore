@@ -1,0 +1,9 @@
+# Docker Ignore
+__pycache__/
+*.pyc
+venv/
+.venv/
+.git/
+.gitignore
+README.md
+scores.json

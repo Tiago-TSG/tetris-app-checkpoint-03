@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Neon Tetris - Cloud Arcade</title>
+    <!-- Fonte retro/futurista do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="stars-background"></div>
+    
+    <header class="game-header">
+        <h1 class="glow-text">PUC MINAS - NEON TETRIS</h1>
+        <p class="subtitle">Cloud Run Arcade Edition</p>
+    </header>
+
+    <div class="main-container">
+        <!-- PAINEL ESQUERDO: CONTROLES & ÁUDIO -->
+        <aside class="side-panel left-panel">
+            <div class="panel-section">
+                <h2>CONTROLES</h2>
+                <div class="controls-list">
+                    <div class="control-item"><span class="key">←</span> <span class="action">Mover Esquerda</span></div>
+                    <div class="control-item"><span class="key">→</span> <span class="action">Mover Direita</span></div>
+                    <div class="control-item"><span class="key">↓</span> <span class="action">Descida Rápida</span></div>
+                    <div class="control-item"><span class="key">↑</span> <span class="action">Rotacionar</span></div>
+                    <div class="control-item"><span class="key">Espaço</span> <span class="action">Queda Instantânea</span></div>
+                    <div class="control-item"><span class="key">P</span> <span class="action">Pausar</span></div>
+                </div>
+            </div>
+
+            <div class="panel-section audio-section">
+                <h2>ÁUDIO</h2>
+                <div class="audio-controls">
+                    <button id="btn-music" class="arcade-btn">
+                        <span class="icon">🎵</span> Música: <span id="music-status">OFF</span>
+                    </button>
+                    <button id="btn-sound" class="arcade-btn active">
+                        <span class="icon">🔊</span> Efeitos: <span id="sound-status">ON</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- PAINEL CENTRAL: O JOGO -->
+        <main class="game-area">
+            <div class="canvas-wrapper">
+                <canvas id="tetris-canvas" width="300" height="600"></canvas>
+                
+                <!-- Container para textos flutuantes (Tetris, Level Up) da Fase 3 -->
+                <div id="game-events-container"></div>
+                
+                <!-- Overlay de Pause -->
+                <div id="pause-overlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2 class="glow-text-blue">PAUSADO</h2>
+                        <p class="blink">Pressione 'P' para continuar</p>
+                    </div>
+                </div>
+
+                <!-- Overlay de Início -->
+                <div id="start-overlay" class="overlay">
+                    <div class="overlay-content">
+                        <h2 class="glow-text">TETRIS</h2>
+                        <button id="btn-start" class="arcade-btn pulse-btn">JOGAR</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- PAINEL DIREITO: STATUS, PRÓXIMA PEÇA & PLACAR -->
+        <aside class="side-panel right-panel">
+            <div class="panel-section next-section">
+                <h2>PRÓXIMO</h2>
+                <div class="next-canvas-wrapper">
+                    <canvas id="next-canvas" width="120" height="120"></canvas>
+                </div>
+            </div>
+
+            <div class="panel-section stats-section">
+                <h2>ESTATÍSTICAS</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">PONTOS</span>
+                        <span id="stat-score" class="stat-val">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">NÍVEL</span>
+                        <span id="stat-level" class="stat-val">1</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">LINHAS</span>
+                        <span id="stat-lines" class="stat-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section scoreboard-section">
+                <h2>RANKING CLOUD</h2>
+                <ol id="scores-list" class="scores-list">
+                    <li class="loading">Carregando recordes...</li>
+                </ol>
+            </div>
+        </aside>
+    </div>
+
+    <!-- MODAL DE GAME OVER / SUBMISSÃO DE PLACAR -->
+    <div id="gameover-modal" class="modal-backdrop hidden">
+        <div class="modal">
+            <h2 class="glow-text-red">FIM DE JOGO</h2>
+            <div class="final-stats">
+                <p>Sua pontuação: <strong id="final-score" class="neon-color-cyan">0</strong></p>
+                <p>Nível alcançado: <strong id="final-level" class="neon-color-green">1</strong></p>
+                <p>Linhas limpas: <strong id="final-lines" class="neon-color-pink">0</strong></p>
+            </div>
+            
+            <div id="new-high-score-form" class="score-form">
+                <p class="blink neon-color-yellow">NOVO RECORDE!</p>
+                <label for="player-name">Insira o seu nome:</label>
+                <input type="text" id="player-name" maxlength="15" placeholder="SEU NOME" autocomplete="off">
+                <div id="pubsub-status" class="pubsub-status hidden"></div>
+                <button id="btn-submit-score" class="arcade-btn">Salvar Placar</button>
+            </div>
+
+            <div class="modal-actions">
+                <button id="btn-restart" class="arcade-btn">Jogar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts da aplicação -->
+    <script src="js/api.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

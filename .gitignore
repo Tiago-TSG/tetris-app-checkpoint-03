@@ -1,0 +1,10 @@
+# Git Ignore
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.pytest_cache/
+scores.json
+.vscode/
+.idea/
